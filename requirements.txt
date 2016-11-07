@@ -1,2 +1,2 @@
-cf_core
+tf_core
 pythonnet
