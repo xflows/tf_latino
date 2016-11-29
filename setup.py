@@ -9,7 +9,7 @@ os.chdir(os.path.normpath(os.path.join(os.path.abspath(__file__), os.pardir)))
 
 setup(
     name='tf_latino',
-    version='0.0.2',
+    version='0.0.5',
     packages=['tf_latino'],
     include_package_data=True,
     license='MIT License',
@@ -33,4 +33,8 @@ setup(
         'Topic :: Scientific/Engineering :: Artificial Intelligence',
         'Topic :: Software Development :: Libraries'
     ],
+    install_requires=[
+        "tf_core",
+        "pythonnet"
+    ]
 )
