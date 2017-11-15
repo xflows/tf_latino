@@ -27,7 +27,7 @@ def advanced_object_converter(input_dict):
     obj = input_dict['obj']
     maxStringLen = ToInt(input_dict['maxStringLen'])
     objstr = ""
-    if input_dict.has_key('attribute') and input_dict['attribute']!="":
+    if 'attribute' in input_dict and input_dict['attribute']!="":
         try:
             obj = eval("obj."+input_dict['attribute'])
         except:

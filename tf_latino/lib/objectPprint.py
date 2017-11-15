@@ -1,6 +1,6 @@
 def printDict(di, format="%-25s %s"):
     for (key, val) in di.items():
-        print format % (str(key)+':', val)
+        print(format % (str(key)+':', val))
 
 def dumpObj(obj, maxlen=80, lindent=24, maxspew=600):
     """Print a nicely formatted overview of an object.
@@ -71,7 +71,7 @@ def dumpObj(obj, maxlen=80, lindent=24, maxspew=600):
         elif (isinstance(attr, types.MethodType) or
               isinstance(attr, types.FunctionType)):
             methods.append( (slot, attr) )
-        elif isinstance(attr, types.TypeType):
+        elif isinstance(attr, type):
             classes.append( (slot, attr) )
         else:
             attrs.append( (slot, attr) )
@@ -175,7 +175,7 @@ def prettyPrintCols(strings, widths, split=' '):
 
     assert len(strings) == len(widths)
 
-    strings = map(nukenewlines, strings)
+    strings = list(map(nukenewlines, strings))
 
     # pretty print each column
     cols = [''] * len(strings)
@@ -186,7 +186,7 @@ def prettyPrintCols(strings, widths, split=' '):
     format = ''.join(["%%-%ds" % width for width in widths[0:-1]]) + "%s"
 
     def formatline(*cols):
-        return format % tuple(map(lambda s: (s or ''), cols))
+        return format % tuple([(s or '') for s in cols])
 
     # generate the formatted text
     return '\n'.join(map(formatline, *cols))
@@ -247,10 +247,10 @@ def ppprint(arg):
     if is_netsequence(arg):
         return str(type(arg))+"\n"+p.pformat([x for x in arg])
     else:
-        if (type(arg) in (str,unicode)) and not hasattr(arg, "GetHashCode"):
+        if (type(arg) in (str,str)) and not hasattr(arg, "GetHashCode"):
             return arg
         else:
-            if ((type(arg) in (int,long,float,complex,tuple,list,dict)) or is_sequence(arg)) and not hasattr(arg, "GetHashCode"):
+            if ((type(arg) in (int,int,float,complex,tuple,list,dict)) or is_sequence(arg)) and not hasattr(arg, "GetHashCode"):
                 return str(type(arg))+"\n"+ p.pformat(arg)
             else:
                 return dumpObj(arg)

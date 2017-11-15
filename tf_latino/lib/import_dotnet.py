@@ -2,7 +2,7 @@ import logging
 import os
 import sys
 import traceback
-from settings import PACKAGE_ROOT
+from .settings import PACKAGE_ROOT
 
 #------------------------------------------------------------------------------
 # prepare environment for loading .net components (Python.net interpreter should be used)
@@ -26,7 +26,7 @@ if sys.platform.startswith('win'):
                 logging.info("Loading .NET library '%s'", f)
                 try:
                     System.Reflection.Assembly.LoadFile(os.path.join(dllPath, f).replace('\\','/'))
-                except System.BadImageFormatException, e:
+                except System.BadImageFormatException as e:
                     pass
 
         # loading LATINO namespace

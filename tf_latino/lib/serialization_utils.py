@@ -1,5 +1,5 @@
 import time
-from itertools import izip
+
 
 from scipy.sparse.csr import csr_matrix
 import logging
@@ -8,7 +8,7 @@ from tf_core.annotation import Annotation
 from tf_core.bow_dataset import BowDataset
 from tf_core.document import Document
 from tf_core.document_corpus import DocumentCorpus
-from latino_object import LatinoObject
+from .latino_object import LatinoObject
 from tf_core.nltoolkit.helpers import DictionaryProbDist
 
 logging.basicConfig(format='%(asctime)s %(message)s', level=logging.INFO)
@@ -81,8 +81,8 @@ def ToNetObj(data):
         if not len(data):
             return System.Collections.Generic.Dictionary[System.Object,System.Object]()
         else:
-            key = ToNetObj(data.keys()[0])
-            val = ToNetObj(data.values()[0])
+            key = ToNetObj(list(data.keys())[0])
+            val = ToNetObj(list(data.values())[0])
             for tryIndex in [0, 1]:
                 try:
                     if not tryIndex:
@@ -154,7 +154,7 @@ def ToNetObj(data):
                 raise Exception("Nekaj gnilega je v dezeli Danski, sporoci maticu.")
             sparse_vectors=[ Latino.SparseVector[System.Double]() for _ in range(cx.shape[0])] #empty SparseVectors
 
-            for (i,j,v) in izip(cx.row, cx.col, cx.data):
+            for (i,j,v) in zip(cx.row, cx.col, cx.data):
                 sparse_vectors[i][j]=v
 
             ds=Latino.Model.LabeledDataset[System.String,Latino.SparseVector[System.Double]]()
@@ -253,7 +253,7 @@ def ToPyObj(data):
         if type.IsArray:
             return [ToPyObj(x) for x in data]
         for interface in type.GetInterfaces():
-            if interface.Name == u'ISerializable':
+            if interface.Name == 'ISerializable':
                 return LatinoObject(data) #if other type of latino object
     return data #usually types like string, list which are converted from c# objects
 
@@ -269,7 +269,7 @@ class SerializableObject:
         self.netObj = constr(*args)
         self.copyAttributes()
     def getConstructorArgs(self, dict):
-        if dict.has_key('constructorArgs'):
+        if 'constructorArgs' in dict:
             return tuple([val for key,val in dict['constructorArgs'].items()])
         return ()
     def copyAttributes(self): #copy all attributes from wrapped object to the wrapper
